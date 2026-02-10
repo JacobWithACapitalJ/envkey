@@ -1,0 +1,38 @@
+export type Env = {
+    NODE_ENV: "production" | "development";
+    SENDER_EMAIL: string;
+    DISABLE_DB_MIGRATIONS?: string;
+    DATABASE_HOST: string;
+    DATABASE_PORT?: string;
+    DATABASE_NAME: string;
+    DATABASE_CREDENTIALS_JSON: string;
+    LOGS_DB_HOST?: string;
+    LOGS_DB_PORT?: string;
+    LOGS_DB_NAME?: string;
+    DATABASE_URI?: string;
+    SOCKET_CLUSTER_AUTH?: string;
+    EMAILS_PER_SECOND?: string;
+    API_VERSION_NUMBER?: string;
+    INFRA_VERSION_NUMBER?: string;
+    DEPLOYMENT_TAG?: string;
+    FAILOVER_SIGNING_PUBKEY?: string;
+    FAILOVER_BUCKET?: string;
+    FAILOVER_LOGS_INTERVAL?: string;
+    IS_CLOUD?: boolean;
+    IS_ENTERPRISE?: boolean;
+    COMMUNITY_AUTH_HASH?: string;
+    EXPRESS_PORT?: string;
+    SOCKET_PORT?: string;
+    CLUSTER_PORT?: string;
+    EMAIL_TOKEN_EXPIRATION_MS?: string;
+    EXTERNAL_AUTH_SESSION_EXPIRATION_MS?: string;
+    REGISTER_ACTION_JSON?: string;
+    INIT_INSTRUCTIONS_JSON?: string;
+    SUBDOMAIN?: string;
+    DOMAIN?: string;
+    SES_SMTP_CREDENTIALS_JSON?: string;
+    SMTP_TRANSPORT_JSON?: string;
+    API_TARGET_RAM_UTILIZATION?: string;
+    AWS_LAMBDA_FUNCTION_NAME?: string;
+};
+//# sourceMappingURL=env.d.ts.map

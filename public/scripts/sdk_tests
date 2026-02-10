@@ -1,19 +1,19 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cd $SCRIPT_DIR/../sdks/languages-and-frameworks
+cd $SCRIPT_DIR/../..
 
 echo "Running envkeygo tests..."
-(cd go/envkeygo && go test ./...)
+(cd sdks/envkeygo && go test ./...)
 
 echo "Running envkey-node tests..."
-(cd node/pkg && npm test)
+(cd public/sdks/languages-and-frameworks/node/pkg && pnpm test)
 
 echo "Running envkey-python tests..."
-(cd python/pkg && make test)
+(cd public/sdks/languages-and-frameworks/python/pkg && make test)
 
 echo "Running envkey-ruby tests..."
-(cd ruby/pkg && rake)
+(cd public/sdks/languages-and-frameworks/ruby/pkg && rake)
 
 echo "Running envkey-php tests..."
-(cd php && ENVKEY_DISABLE_AUTOLOAD=1 vendor/bin/phpunit tests/EnvkeyTest.php)
+(cd public/sdks/languages-and-frameworks/php && ENVKEY_DISABLE_AUTOLOAD=1 vendor/bin/phpunit tests/EnvkeyTest.php)

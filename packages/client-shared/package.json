@@ -1,0 +1,21 @@
+{
+  "name": "@envkey/client-shared",
+  "version": "2.0.0",
+  "description": "EnvKey client shared utilities",
+  "author": "Envkey Inc",
+  "license": "MIT",
+  "private": true,
+  "main": "src/env.ts",
+  "scripts": {
+    "build": "echo 'Client-shared uses ts-node at runtime - no build needed'",
+    "watch": "tsc --watch --noEmit -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^18.18.0",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.3.3"
+  },
+  "dependencies": {}
+}

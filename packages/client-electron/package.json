@@ -1,0 +1,90 @@
+{
+  "name": "@envkey/desktop",
+  "version": "2.4.18",
+  "description": "EnvKey UI",
+  "author": "Envkey Inc <support@envkey.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/envkey/envkey.git"
+  },
+  "license": "MIT",
+  "main": "dist/bundle.js",
+  "scripts": {
+    "build": "rm -rf dist && webpack && webpack --config ./webpack.preload.ts && (cp ../core/build/worker.js dist/ 2>/dev/null || echo 'Warning: worker.js not found - run build:worker in @envkey/core first') && (cp -R bin dist/ 2>/dev/null || true) && (cp -R icon dist/ 2>/dev/null || true)",
+    "build:start": "pnpm run build && NODE_ENV=development electron dist/bundle.js",
+    "start": "NODE_ENV=development electron dist/bundle.js",
+    "watch": "webpack --watch",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "clean": "rimraf dist",
+    "postinstall": "electron-rebuild -f -w keytar || true",
+    "stage-bins": "node -e \"const os=require('os'),fs=require('fs'),path=require('path');const arch=os.arch()==='arm64'?'arm64':'amd64';const plat={darwin:'mac',linux:'linux',win32:'windows'}[os.platform()];const v=require('../client-cli/package.json').version;const dir=path.join('bin',plat,...(os.platform()==='darwin'?[arch]:[]));const cliDir=path.join(dir,'cli-'+v);fs.mkdirSync(cliDir,{recursive:true});const ext=os.platform()==='win32'?'.exe':'';fs.copyFileSync(path.join('..','client-cli','build','envkey-cli.js'),path.join(cliDir,'envkey'+ext));fs.chmodSync(path.join(cliDir,'envkey'+ext),0o755);fs.copyFileSync(path.join('..','..','sdks','envkey-source','envkey-source'+ext),path.join(dir,'envkey-source'+ext));fs.chmodSync(path.join(dir,'envkey-source'+ext),0o755);console.log('Staged CLI and envkey-source to',dir)\"",
+    "package": "pnpm run stage-bins && electron-builder build --publish never",
+    "package:mac": "pnpm run stage-bins && electron-builder build --mac --publish never",
+    "package:win": "pnpm run stage-bins && electron-builder build --win --publish never",
+    "package:linux": "pnpm run stage-bins && electron-builder build --linux --publish never"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "@types/node": "^18.18.0",
+    "electron": "^25.9.0",
+    "electron-builder": "^24.9.1",
+    "electron-rebuild": "^3.2.9",
+    "file-loader": "^6.2.0",
+    "rimraf": "^5.0.5",
+    "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "~5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@envkey/core": "workspace:*",
+    "@envkey/client-core-process": "workspace:*",
+    "@envkey/infra": "workspace:*",
+    "@vscode/sudo-prompt": "^9.3.1",
+    "electron-updater": "^6.1.7",
+    "fkill": "^7.2.1",
+    "keytar": "^7.9.0",
+    "mkdirp": "^1.0.4",
+    "ramda": "^0.27.1",
+    "semver": "^7.3.2",
+    "which": "^2.0.2"
+  },
+  "build": {
+    "appId": "com.envkey.app",
+    "productName": "EnvKey",
+    "files": [
+      "dist/**/*",
+      "!node_modules"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/worker.js",
+        "to": "app/worker.js"
+      },
+      {
+        "from": "bin",
+        "to": "app/bin"
+      },
+      {
+        "from": "icon",
+        "to": "app/icon"
+      }
+    ],
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}

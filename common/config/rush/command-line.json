@@ -1,0 +1,119 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
+  "commands": [
+    {
+      "name": "build",
+      "commandKind": "bulk",
+      "summary": "Build all projects",
+      "description": "Builds all projects in the repository, respecting dependency order",
+      "enableParallelism": true,
+      "ignoreMissingScript": false,
+      "ignoreDependencyOrder": false,
+      "incremental": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "name": "rebuild",
+      "commandKind": "bulk",
+      "summary": "Clean and rebuild all projects",
+      "description": "Performs a full clean rebuild of all projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": false,
+      "ignoreDependencyOrder": false,
+      "incremental": false,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "name": "build:worker",
+      "commandKind": "global",
+      "summary": "Build the worker.js for electron",
+      "description": "Builds the core worker bundle that is consumed by the electron app",
+      "shellCommand": "cd packages/core && pnpm run build:worker",
+      "safeForSimultaneousRushProcesses": false
+    },
+    {
+      "name": "test",
+      "commandKind": "bulk",
+      "summary": "Run tests",
+      "description": "Runs tests for all projects that have a test script",
+      "enableParallelism": false,
+      "ignoreMissingScript": true,
+      "ignoreDependencyOrder": false
+    },
+    {
+      "name": "lint",
+      "commandKind": "bulk",
+      "summary": "Lint all projects",
+      "description": "Runs linting on all projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true,
+      "ignoreDependencyOrder": true
+    },
+    {
+      "name": "clean",
+      "commandKind": "bulk",
+      "summary": "Clean build outputs",
+      "description": "Removes build artifacts from all projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true,
+      "ignoreDependencyOrder": true
+    },
+    {
+      "name": "start:api",
+      "commandKind": "global",
+      "summary": "Start the API server",
+      "description": "Starts the Express API server in development mode",
+      "shellCommand": "cd packages/api-express && pnpm start",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "start:ui",
+      "commandKind": "global",
+      "summary": "Start the UI dev server",
+      "description": "Starts the webpack dev server for the React UI",
+      "shellCommand": "cd packages/client-ui && pnpm run build:watch",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "start:cli",
+      "commandKind": "global",
+      "summary": "Start CLI in development mode",
+      "description": "Runs the CLI with ts-node for development",
+      "shellCommand": "cd packages/client-cli && pnpm start",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "start:electron",
+      "commandKind": "global",
+      "summary": "Start Electron app",
+      "description": "Starts the Electron desktop application",
+      "shellCommand": "cd packages/client-electron && pnpm start",
+      "safeForSimultaneousRushProcesses": true
+    },
+    {
+      "name": "package:electron",
+      "commandKind": "global",
+      "summary": "Package Electron app",
+      "description": "Builds and packages the Electron app for distribution",
+      "shellCommand": "rush build && rush build:worker && cd packages/client-electron && pnpm run build",
+      "safeForSimultaneousRushProcesses": false
+    },
+    {
+      "name": "build:go",
+      "commandKind": "global",
+      "summary": "Build all Go projects",
+      "description": "Builds the envkey-source binary and envkeygo SDK",
+      "shellCommand": "cd sdks/envkey-source && go build -o envkey-source . && echo 'envkey-source built' && cd ../../sdks/envkeygo && go build ./... && echo 'envkeygo built'",
+      "safeForSimultaneousRushProcesses": false
+    },
+    {
+      "name": "test:go",
+      "commandKind": "global",
+      "summary": "Test all Go projects",
+      "description": "Runs tests for all Go projects (envkey-source and envkeygo)",
+      "shellCommand": "cd sdks/envkey-source && go clean -testcache && go test -v ./... && cd ../../sdks/envkeygo && go clean -testcache && go test -v ./...",
+      "safeForSimultaneousRushProcesses": true
+    }
+  ],
+  "parameters": []
+}

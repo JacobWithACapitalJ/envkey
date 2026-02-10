@@ -1,0 +1,12 @@
+[
+  {
+    "policyName": "internal",
+    "definitionName": "lockStepVersion",
+    "version": "2.0.0",
+    "nextBump": "patch"
+  },
+  {
+    "policyName": "sdk",
+    "definitionName": "individualVersion"
+  }
+]

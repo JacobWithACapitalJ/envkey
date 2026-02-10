@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@core/*": ["../core/src/*"],
+      "@envkey/core/*": ["../core/src/*"],
+      "@envkey/client-shared/*": ["../client-shared/*"]
+    },
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+}

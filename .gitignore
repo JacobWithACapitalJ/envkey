@@ -77,3 +77,9 @@ go.mod.public
 
 # for testing app auto-detection with CLI
 .envkey
+
+# Rush temporary files
+common/temp
+
+# Go build output
+sdks/envkey-source/envkey-source

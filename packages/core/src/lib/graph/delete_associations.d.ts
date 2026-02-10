@@ -1,0 +1,3 @@
+import { Graph } from "../../types";
+export declare const getDeleteAppAssociations: (graph: Graph.Graph, appId: string) => Graph.GraphObject[], getDeleteBlockAssociations: (graph: Graph.Graph, blockId: string) => Graph.GraphObject[], getDeleteGroupAssociations: (graph: Graph.Graph, groupId: string) => Graph.GraphObject[], getDeleteEnvironmentAssociations: (graph: Graph.Graph, environmentId: string) => Graph.GraphObject[], getDeleteKeyableParentAssociations: (graph: Graph.Graph, keyableParentId: string) => Graph.GraphObject[];
+//# sourceMappingURL=delete_associations.d.ts.map

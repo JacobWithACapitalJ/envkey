@@ -1,0 +1,3 @@
+import { Graph } from "../../../../types";
+export declare const canCreateDeviceGrant: (graph: Graph.Graph, currentUserId: string, granteeId: string) => boolean, canRevokeDeviceGrant: (graph: Graph.Graph, currentUserId: string, deviceGrantId: string) => boolean, canRevokeDevice: (graph: Graph.Graph, currentUserId: string, deviceId: string) => boolean, canManageAnyDevicesOrGrants: (graph: Graph.Graph, currentUserId: string) => boolean, canManageAnyUserDevicesOrGrants: (graph: Graph.Graph, currentUserId: string, userId: string) => boolean;
+//# sourceMappingURL=devices.d.ts.map

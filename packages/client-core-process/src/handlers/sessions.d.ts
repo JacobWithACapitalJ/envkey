@@ -1,0 +1,3 @@
+import { Client, Api } from "@envkey/core/types";
+export declare const upgradeCryptoIfNeeded: (state: Client.State, currentUserId: string, context: Client.Context) => Promise<Client.DispatchResult<Client.Action.EnvkeyAction | Client.Action.SuccessAction<Client.Action.EnvkeyAction, any> | Client.Action.FailureAction<Client.Action.EnvkeyAction, Api.Net.ErrorResult>>>;
+//# sourceMappingURL=sessions.d.ts.map

@@ -1,0 +1,4 @@
+import { Graph, Rbac } from "../../types";
+export declare const getOrgAccessScopeForGroupMembership: ((graph: Graph.Graph, groupId: string, objectId?: string) => Rbac.OrgAccessScope) & import("memoizee").Memoized<(graph: Graph.Graph, groupId: string, objectId?: string) => Rbac.OrgAccessScope>;
+export declare const getOrgAccessScopeForGroupMembers: ((graph: Graph.Graph, groupId: string, includeConnectedBlocks?: true) => Rbac.OrgAccessScope) & import("memoizee").Memoized<(graph: Graph.Graph, groupId: string, includeConnectedBlocks?: true) => Rbac.OrgAccessScope>;
+//# sourceMappingURL=groups.d.ts.map

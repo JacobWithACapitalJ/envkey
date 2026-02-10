@@ -1,0 +1,46 @@
+{
+  "name": "@envkey/client-core-process",
+  "version": "2.0.0",
+  "description": "EnvKey client core server - listens on localhost for actions, manages local state cache, and serves UI files",
+  "author": "Envkey Inc",
+  "license": "MIT",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "echo 'Client-core-process uses ts-node at runtime - no build needed'",
+    "watch": "tsc --watch --noEmit -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "check-watch": "tsc --watch --noEmit -p tsconfig.json",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^18.18.0",
+    "@types/ramda": "^0.27.32",
+    "@types/uuid": "^8.3.0",
+    "@types/ws": "^7.4.0",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.3.3"
+  },
+  "dependencies": {
+    "@envkey/core": "workspace:*",
+    "@envkey/client-shared": "workspace:*",
+    "bs58": "^4.0.1",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "fkill": "^7.2.1",
+    "got": "^11.8.3",
+    "immer": "^9.0.7",
+    "isomorphic-ws": "^4.0.1",
+    "lodash.set": "^4.3.2",
+    "lodash.unset": "^4.5.2",
+    "open": "^8.4.0",
+    "ramda": "^0.27.1",
+    "redux": "^4.1.2",
+    "rfc6902": "^4.0.1",
+    "semver": "^7.3.2",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1",
+    "uuid": "^8.3.1",
+    "ws": "^7.5.6"
+  }
+}

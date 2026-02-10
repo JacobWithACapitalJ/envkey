@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@ui_types": ["./src/types"],
+      "@ui": ["./src/components"],
+      "@ui_lib/*": ["./src/lib/*"],
+      "@styles": ["./src/styles"],
+      "@images": ["./src/images"],
+      "@constants": ["./src/constants"],
+      "@core/*": ["../core/src/*"],
+      "@envkey/core/*": ["../core/src/*"],
+      "@envkey/client-shared/*": ["../client-shared/*"],
+      "@envkey/infra/*": ["../infra/*"]
+    },
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "build"],
+}

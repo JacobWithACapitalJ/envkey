@@ -1,0 +1,26 @@
+{
+  "name": "@envkey/test-core",
+  "version": "2.0.0",
+  "description": "EnvKey test core utilities",
+  "author": "Envkey Inc",
+  "license": "MIT",
+  "private": true,
+  "main": "src/test_core.ts",
+  "scripts": {
+    "build": "echo 'Test core uses ts-node at runtime - no build needed'",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^18.18.0",
+    "@types/uuid": "^8.3.0",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.3.3"
+  },
+  "dependencies": {
+    "@envkey/core": "workspace:*",
+    "@envkey/infra": "workspace:*",
+    "@envkey/client-core-process": "workspace:*",
+    "uuid": "^8.3.1"
+  }
+}

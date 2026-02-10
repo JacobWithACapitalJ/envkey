@@ -1,0 +1,130 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+  "rushVersion": "5.166.0",
+  "pnpmVersion": "9.15.4",
+  "nodeSupportedVersionRange": ">=16.14.0",
+  "ensureConsistentVersions": true,
+  "projectFolderMinDepth": 2,
+  "projectFolderMaxDepth": 4,
+
+  "repository": {
+    "url": "https://github.com/envkey/envkey.git",
+    "defaultBranch": "main",
+    "defaultRemote": "origin"
+  },
+
+  "eventHooks": {
+    "preRushInstall": [],
+    "postRushInstall": []
+  },
+
+  "projects": [
+    {
+      "packageName": "@envkey/core",
+      "projectFolder": "packages/core",
+      "reviewCategory": "libraries",
+      "shouldPublish": false,
+      "tags": ["core", "typescript-only"]
+    },
+    {
+      "packageName": "@envkey/infra",
+      "projectFolder": "packages/infra",
+      "reviewCategory": "libraries",
+      "shouldPublish": false,
+      "tags": ["core", "aws"]
+    },
+    {
+      "packageName": "@envkey/api-express",
+      "projectFolder": "packages/api-express",
+      "reviewCategory": "applications",
+      "shouldPublish": false,
+      "tags": ["api", "webpack"]
+    },
+    {
+      "packageName": "@envkey/client-shared",
+      "projectFolder": "packages/client-shared",
+      "reviewCategory": "libraries",
+      "shouldPublish": false,
+      "tags": ["client"]
+    },
+    {
+      "packageName": "@envkey/client-core-process",
+      "projectFolder": "packages/client-core-process",
+      "reviewCategory": "libraries",
+      "shouldPublish": false,
+      "tags": ["client", "tsc-only"]
+    },
+    {
+      "packageName": "@envkey/client-ui",
+      "projectFolder": "packages/client-ui",
+      "reviewCategory": "applications",
+      "shouldPublish": false,
+      "tags": ["client", "webpack", "react"]
+    },
+    {
+      "packageName": "@envkey/client-cli",
+      "projectFolder": "packages/client-cli",
+      "reviewCategory": "applications",
+      "shouldPublish": false,
+      "tags": ["client", "webpack"]
+    },
+    {
+      "packageName": "@envkey/desktop",
+      "projectFolder": "packages/client-electron",
+      "reviewCategory": "applications",
+      "shouldPublish": false,
+      "tags": ["client", "webpack", "electron", "native"]
+    },
+    {
+      "packageName": "@envkey/tests",
+      "projectFolder": "packages/tests",
+      "reviewCategory": "tests",
+      "shouldPublish": false,
+      "tags": ["tests"]
+    },
+    {
+      "packageName": "@envkey/test-core",
+      "projectFolder": "packages/test-core",
+      "reviewCategory": "tests",
+      "shouldPublish": false,
+      "tags": ["tests"]
+    },
+    {
+      "packageName": "envkey",
+      "projectFolder": "sdks/node",
+      "reviewCategory": "sdks",
+      "shouldPublish": true,
+      "versionPolicyName": "sdk",
+      "tags": ["sdk", "npm-publish"]
+    },
+    {
+      "packageName": "envkey-webpack-plugin",
+      "projectFolder": "sdks/webpack-plugin",
+      "reviewCategory": "sdks",
+      "shouldPublish": true,
+      "versionPolicyName": "sdk",
+      "tags": ["sdk", "npm-publish"]
+    },
+    {
+      "packageName": "envkey-vscode",
+      "projectFolder": "sdks/vscode",
+      "reviewCategory": "sdks",
+      "shouldPublish": false,
+      "tags": ["sdk", "vscode"]
+    },
+    {
+      "packageName": "@envkey/envkey-source",
+      "projectFolder": "sdks/envkey-source",
+      "reviewCategory": "sdks",
+      "shouldPublish": false,
+      "tags": ["sdk", "go"]
+    },
+    {
+      "packageName": "@envkey/envkeygo",
+      "projectFolder": "sdks/envkeygo",
+      "reviewCategory": "sdks",
+      "shouldPublish": false,
+      "tags": ["sdk", "go"]
+    }
+  ]
+}

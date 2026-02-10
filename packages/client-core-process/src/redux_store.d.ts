@@ -1,0 +1,6 @@
+import Client from "@envkey/core/types/client";
+import "./handlers";
+export declare const getNewStore: (initialState?: Client.ProcState) => _Store<import("../../core/src/types/client/state").ProcState, Client.ActionTypeWithContextMeta<Client.Action.EnvkeyAction | Client.Action.SuccessAction<Client.Action.EnvkeyAction, any> | Client.Action.FailureAction<Client.Action.EnvkeyAction, import("../../core/src/types/api/net").Net.ErrorResult>, any>>;
+export declare const getDefaultStore: () => any, clearStore: () => void;
+export declare const getTempStore: (storeArg?: _Store<import("../../core/src/types/client/state").ProcState, Client.ActionTypeWithContextMeta<Client.Action.EnvkeyAction | Client.Action.SuccessAction<Client.Action.EnvkeyAction, any> | Client.Action.FailureAction<Client.Action.EnvkeyAction, import("../../core/src/types/api/net").Net.ErrorResult>, any>>) => _Store<import("../../core/src/types/client/state").ProcState, Client.ActionTypeWithContextMeta<Client.Action.EnvkeyAction | Client.Action.SuccessAction<Client.Action.EnvkeyAction, any> | Client.Action.FailureAction<Client.Action.EnvkeyAction, import("../../core/src/types/api/net").Net.ErrorResult>, any>>;
+//# sourceMappingURL=redux_store.d.ts.map

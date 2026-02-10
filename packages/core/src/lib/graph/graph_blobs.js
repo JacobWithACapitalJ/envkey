@@ -1,0 +1,198 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBlobSetNumUpdatedSummary = exports.getEnvironmentsQueuedForReencryptionIds = exports.getRequiredBlobPathsForDeleteEncryptedKeys = void 0;
+const _1 = require(".");
+const memoize_1 = __importDefault(require("../utils/memoize"));
+const getRequiredBlobPathsForDeleteEncryptedKeys = (graph, userId, toDeleteEncryptedKeys) => {
+    const blobPaths = new Set();
+    const addBlobPaths = (envParentId, environmentType, environmentOrLocalsUserId, blobType, envParts = ["env", "meta", "inherits"]) => {
+        if (blobType == "env") {
+            for (let envPart of envParts) {
+                blobPaths.add(envParentId +
+                    "|" +
+                    environmentType +
+                    "|" +
+                    environmentOrLocalsUserId +
+                    "|" +
+                    envPart);
+            }
+        }
+        else {
+            blobPaths.add(envParentId +
+                "|" +
+                environmentType +
+                "|" +
+                environmentOrLocalsUserId +
+                "|" +
+                "changesetsById");
+        }
+    };
+    if (toDeleteEncryptedKeys.users) {
+        for (let userId in toDeleteEncryptedKeys.users) {
+            for (let deviceId in toDeleteEncryptedKeys.users[userId]) {
+                for (let envParentId in toDeleteEncryptedKeys.users[userId][deviceId]) {
+                    const { environments, locals } = toDeleteEncryptedKeys.users[userId][deviceId][envParentId];
+                    const envParent = graph[envParentId];
+                    if (!envParent || envParent.deletedAt) {
+                        continue;
+                    }
+                    const envParentPermissions = (0, _1.getEnvParentPermissions)(graph, envParentId);
+                    if (environments) {
+                        for (let environmentId in environments) {
+                            const environment = graph[environmentId];
+                            if (!environment || environment.deletedAt) {
+                                continue;
+                            }
+                            if (_1.authz.canUpdateEnv(graph, userId, environmentId)) {
+                                const envProps = environments[environmentId];
+                                if (envProps.env || envProps.meta || envProps.inherits) {
+                                    addBlobPaths(envParentId, "environments", environmentId, "env");
+                                }
+                                if (envProps.changesets) {
+                                    addBlobPaths(envParentId, "environments", environmentId, "changeset");
+                                }
+                            }
+                        }
+                    }
+                    if (locals) {
+                        for (let localsUserId in locals) {
+                            const localsUser = graph[localsUserId];
+                            if (!localsUser ||
+                                localsUser.deletedAt ||
+                                localsUser.deactivatedAt) {
+                                continue;
+                            }
+                            if (_1.authz.canUpdateLocals(graph, userId, envParentId, localsUserId)) {
+                                const localsProps = locals[localsUserId];
+                                if (localsProps.env || localsProps.meta) {
+                                    addBlobPaths(envParentId, "locals", localsUserId, "env");
+                                }
+                                if (localsProps.changesets) {
+                                    addBlobPaths(envParentId, "locals", localsUserId, "changeset");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (toDeleteEncryptedKeys.blockKeyableParents) {
+        for (let blockId in toDeleteEncryptedKeys.blockKeyableParents) {
+            for (let keyableParentId in toDeleteEncryptedKeys.blockKeyableParents[blockId]) {
+                const keyableParent = graph[keyableParentId];
+                if (!keyableParent || keyableParent.deletedAt) {
+                    continue;
+                }
+                const [blockEnvironment] = (0, _1.getConnectedBlockEnvironmentsForApp)(graph, keyableParent.appId, blockId, keyableParent.environmentId);
+                if (_1.authz.canUpdateEnv(graph, userId, blockEnvironment.id)) {
+                    addBlobPaths(blockId, "environments", blockEnvironment.id, "env", [
+                        "env",
+                    ]);
+                }
+                if (keyableParent.type == "localKey") {
+                    if (_1.authz.canUpdateLocals(graph, userId, blockId, keyableParent.userId)) {
+                        addBlobPaths(blockId, "locals", keyableParent.userId, "env", [
+                            "env",
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+    if (toDeleteEncryptedKeys.keyableParents) {
+        for (let keyableParentId in toDeleteEncryptedKeys.keyableParents) {
+            const keyableParent = graph[keyableParentId];
+            if (!keyableParent || keyableParent.deletedAt) {
+                continue;
+            }
+            if (_1.authz.canUpdateEnv(graph, userId, keyableParent.environmentId)) {
+                addBlobPaths(keyableParent.appId, "environments", keyableParent.environmentId, "env", ["env"]);
+            }
+            if (keyableParent.type == "localKey") {
+                if (_1.authz.canUpdateLocals(graph, userId, keyableParent.appId, keyableParent.userId)) {
+                    addBlobPaths(keyableParent.appId, "locals", keyableParent.userId, "env", ["env"]);
+                }
+            }
+        }
+    }
+    return blobPaths;
+};
+exports.getRequiredBlobPathsForDeleteEncryptedKeys = getRequiredBlobPathsForDeleteEncryptedKeys;
+exports.getEnvironmentsQueuedForReencryptionIds = (0, memoize_1.default)((graph, currentUserId) => {
+    const user = graph[currentUserId];
+    if (!user) {
+        return [];
+    }
+    const role = graph[user.orgRoleId];
+    // quick fix for tricky issue with allowing basic users to re-encrypt
+    // now only org owners and org admins can re-encrypt
+    if (role.defaultName != "Org Owner" && role.defaultName != "Org Admin") {
+        return [];
+    }
+    const { apps, blocks, environments } = (0, _1.graphTypes)(graph);
+    const ids = [];
+    for (let environment of environments) {
+        if (environment.reencryptionRequiredAt) {
+            if (_1.authz.canUpdateEnv(graph, currentUserId, environment.id) &&
+                environment.envUpdatedAt) {
+                ids.push(environment.id);
+            }
+        }
+    }
+    for (let envParent of [...apps, ...blocks]) {
+        for (let localsUserId in envParent.localsReencryptionRequiredAt) {
+            if (_1.authz.canUpdateLocals(graph, currentUserId, envParent.id, localsUserId) &&
+                envParent.localsUpdatedAtByUserId[localsUserId]) {
+                ids.push(envParent.id + "|" + localsUserId);
+            }
+        }
+    }
+    return ids;
+});
+const getBlobSetNumUpdatedSummary = (graph, blobSet) => {
+    let numApps = 0;
+    let numBlocks = 0;
+    let numEnvironments = 0;
+    const countedIds = new Set();
+    for (let envParentId in blobSet) {
+        const envParent = graph[envParentId];
+        const { environments, locals } = blobSet[envParentId];
+        if (!countedIds.has(envParentId)) {
+            if (envParent.type == "app") {
+                numApps++;
+            }
+            else {
+                numBlocks++;
+            }
+            countedIds.add(envParentId);
+        }
+        for (let environmentId in environments) {
+            if (!countedIds.has(environmentId)) {
+                numEnvironments++;
+                countedIds.add(environmentId);
+            }
+        }
+        for (let localsUserId in locals) {
+            numEnvironments++;
+            countedIds.add(envParentId + "|" + localsUserId);
+        }
+    }
+    let s = "";
+    if (numApps && numBlocks) {
+        s += `${numApps} app${numApps > 1 ? "s" : ""}, ${numBlocks} block${numBlocks > 1 ? "s" : ""}`;
+    }
+    else if (numApps) {
+        s += `${numApps} app${numApps > 1 ? "s" : ""}`;
+    }
+    else if (numBlocks) {
+        s += `${numBlocks} block${numBlocks > 1 ? "s" : ""}`;
+    }
+    s += `, ${numEnvironments} environment${numEnvironments > 1 ? "s" : ""}`;
+    return s;
+};
+exports.getBlobSetNumUpdatedSummary = getBlobSetNumUpdatedSummary;
+//# sourceMappingURL=graph_blobs.js.map

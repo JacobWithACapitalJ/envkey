@@ -1,0 +1,11 @@
+{
+  "name": "@envkey/envkeygo",
+  "version": "2.4.3",
+  "private": true,
+  "description": "EnvKey Go SDK",
+  "scripts": {
+    "build": "go build ./...",
+    "test": "go clean -testcache && go test -v ./...",
+    "clean": "go clean"
+  }
+}

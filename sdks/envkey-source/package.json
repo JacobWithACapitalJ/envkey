@@ -1,0 +1,11 @@
+{
+  "name": "@envkey/envkey-source",
+  "version": "2.5.1",
+  "private": true,
+  "description": "EnvKey Source - Go-based CLI integration tool",
+  "scripts": {
+    "build": "go build -o envkey-source .",
+    "test": "go clean -testcache && go test -v ./...",
+    "clean": "rm -f envkey-source"
+  }
+}

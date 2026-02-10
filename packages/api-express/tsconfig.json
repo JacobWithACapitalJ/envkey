@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@core/*": ["../core/src/*"],
+      "@envkey/core/*": ["../core/src/*"],
+      "@infra/*": ["../infra/src/*"],
+      "@envkey/infra/*": ["../infra/src/*"],
+    },
+  },
+  "include": [
+    "src/**/*",
+    "api-shared/**/*",
+    "api-community/**/*",
+    "migrations/**/*",
+    "scripts/**/*",
+  ],
+  "exclude": ["node_modules", "build"],
+}

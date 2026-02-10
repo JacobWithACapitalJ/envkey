@@ -1,0 +1,31 @@
+{
+  "name": "envkey",
+  "version": "2.5.1",
+  "description": "EnvKey secures and simplifies configuration and secrets management.",
+  "repository": "https://github.com/envkey/envkey",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "LICENSE.txt",
+    "loader.d.ts",
+    "loader.js",
+    "package.json",
+    "ext/*/envkey-source*"
+  ],
+  "scripts": {
+    "build": "echo 'No build step required for envkey SDK'",
+    "test": "jest"
+  },
+  "keywords": [
+    "configuration",
+    "environment variables",
+    "encryption",
+    "security"
+  ],
+  "author": "EnvKey <support@envkey.com> (https://www.envkey.com)",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
